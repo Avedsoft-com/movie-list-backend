@@ -19,7 +19,9 @@ jobs:
       - name: install project dependencies
         run: npm install
       - name: build project
-        run: npm run build
+        run: |
+          npm run build
+          npx prisma generate
       - name: deploy project
         uses: up9cloud/action-rsync@v1.4
         env:
@@ -42,7 +44,6 @@ jobs:
           script: |
             source ~/.profile
             cd "$DEPLOY_PATH"
-            npx prisma generate
             set -x
             pm2 start ecosystem.config.js
             pm2 save
