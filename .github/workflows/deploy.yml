@@ -42,6 +42,7 @@ jobs:
           script: |
             source ~/.profile
             cd "$DEPLOY_PATH"
+            npx prisma generate
             set -x
             pm2 start ecosystem.config.js
             pm2 save
