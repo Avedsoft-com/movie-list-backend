@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String?
+  password   String
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  UserMovie  UserMovie[]
+  UserTokens Tokens[]
+}
+
+model Movie {
+  id         Int         @id @default(autoincrement())
+  title      String
+  year       Int
+  cover      String
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  user_id    Int?
+  UserMovie  UserMovie[]
+}
+
+model UserMovie {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  movie_id   Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  User       User     @relation(fields: [user_id], references: [id])
+  Movie      Movie    @relation(fields: [movie_id], references: [id])
+}
+
+model Tokens {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  access_token  String
+  refresh_token String
+  expires_at    DateTime
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  User          User     @relation(fields: [user_id], references: [id])
+}
