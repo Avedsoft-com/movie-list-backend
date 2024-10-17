@@ -28,7 +28,7 @@ jobs:
           KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           SOURCE: "./"
           TARGET: ${{ vars.DEPLOY_DEPLOY_PATH }}
-          ARGS: "-zrlp --delete --exclude=/.git/ --exclude=/.github/ --exclude=/.env --exclude=/node_modules"
+          ARGS: "-zrlp --delete --exclude=/.git/ --exclude=/.github/ --exclude=/.env"
       - name: start project
         uses: appleboy/ssh-action@v1.1.0
         env:
